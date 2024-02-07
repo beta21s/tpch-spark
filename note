@@ -1,0 +1,38 @@
+import org.apache.hadoop.conf.Configuration
+import org.apache.hadoop.fs.FileSystem
+import org.apache.hadoop.fs.Path
+import java.io.BufferedOutputStream
+import java.io.OutputStreamWriter
+import java.nio.charset.StandardCharsets
+
+if (executionTimes.length > 0) {
+  val hdfsUri = "hdfs://namenode:8020" // Replace with your HDFS URI
+  val executionTimesPath = "/path/to/your/hdfs/output/file" // HDFS output path
+  
+  // Hadoop Configuration
+  val conf = new Configuration()
+  conf.set("fs.defaultFS", hdfsUri)
+  val fs = FileSystem.get(conf)
+  
+  // Create output stream to write to HDFS
+  val outputPath = new Path(executionTimesPath)
+  val outputStream = if (fs.exists(outputPath)) {
+    fs.append(outputPath) // If file exists, append to it
+  } else {
+    fs.create(outputPath) // If file does not exist, create it
+  }
+  val bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8))
+
+  // Write data
+  bufferedWriter.write("Query\tTime (seconds)\n")
+  executionTimes.foreach {
+    case (key, value) => bufferedWriter.write(f"$key%s\t$value%1.8f\n")
+  }
+
+  // Close resources
+  bufferedWriter.close()
+  outputStream.close()
+  fs.close()
+
+  println(f"Execution times written in $executionTimesPath on HDFS.")
+}
