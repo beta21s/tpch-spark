@@ -102,18 +102,18 @@ object TpchQuery {
     spark.close()
 
     // write execution times to file
-    if (executionTimes.length > 0) {
-      val outfile = new File(executionTimesPath)
-      val bw = new BufferedWriter(new FileWriter(outfile, true))
-
-      bw.write(f"Query\tTime (seconds)\n")
-      executionTimes.foreach {
-        case (key, value) => bw.write(f"${key}%s\t${value}%1.8f\n")
-      }
-      bw.close()
-
-      println(f"Execution times written in ${outfile}.")
-    }
+//    if (executionTimes.length > 0) {
+//      val outfile = new File(executionTimesPath)
+//      val bw = new BufferedWriter(new FileWriter(outfile, true))
+//
+//      bw.write(f"Query\tTime (seconds)\n")
+//      executionTimes.foreach {
+//        case (key, value) => bw.write(f"${key}%s\t${value}%1.8f\n")
+//      }
+//      bw.close()
+//
+//      println(f"Execution times written in ${outfile}.")
+//    }
 
     println("Execution complete.")
   }
