@@ -91,8 +91,7 @@ $ cat region.tbl
 4|MIDDLE EAST|uickly special accounts cajole carefully blithely close requests. carefully final asymptotes haggle furiousl|
 ```
 
-You can find the schemas of the generated tables in the [TPC-H specification](./tpch-v3.0.0-specification.pdf)
-
+You can find the schemas of the generated tables in the [TPC-H specification](./tpch-v3.0.0-specification.pdf)25
 
 ### C. Build `tpch-spark`
 
@@ -135,6 +134,32 @@ export TPCH_INPUT_DATA_DIR="$HOME/tpch-data"
 export TPCH_QUERY_OUTPUT_DIR="$HOME/tpch-results"
 export TPCH_EXECUTION_TIMES="$HOME/tpch-times.txt"
 ```
+
+export TPCH_INPUT_DATA_DIR="hdfs://172.20.9.30:9000/tpc-h20/"
+export TPCH_QUERY_OUTPUT_DIR="hdfs://172.20.9.30:9000/tpc-h20/output"
+export TPCH_EXECUTION_TIMES="hdfs://172.20.9.30:9000/tpc-h20/execution_times"
+
+export PATH_JAR_BUILD=/home/ubuntu/Documents/apache-spark-scala/spark-join/target/scala-2.12/spark-join-assembly-0.1.0-SNAPSHOT.jar
+export PATH_JAR_HDFS=hdfs://172.20.9.30:9000/tpch-20G
+
+#sbt assembly
+hadoop fs -put -f /home/ubuntu/Documents/tpch-spark/dbgen/*.tbl hdfs://172.20.9.30:9000/tpch-10G
+hadoop fs -rm hdfs://172.20.9.30:9000/history/spark-9bf6c5fdade8467c97b551e636d491c3
+hadoop fs -rm hdfs://172.20.9.30:9000/history/spark-1ecedda1832646e79d7be5f69b3e9ec4
+hadoop fs -rm hdfs://172.20.9.30:9000/history/spark-36f1df52f7a640fea612c299472dfa29
+hadoop fs -rm hdfs://172.20.9.30:9000/history/spark-1afaf89bc18f4f1984f3de39952d52eb
+hadoop fs -rm hdfs://172.20.9.30:9000/history/app-20241023160131-0000
+hadoop fs -rm hdfs://172.20.9.30:9000/history/app-20241023160818-0001
+hadoop fs -rm hdfs://172.20.9.30:9000/history/app-20241023161235-0002
+hadoop fs -rm hdfs://172.20.9.30:9000/history/app-20241023161632-0003
+hadoop fs -rm hdfs://172.20.9.30:9000/history/app-20241023161851-0004
+hadoop fs -rm hdfs://172.20.9.30:9000/history/app-20241023162112-0005
+hadoop fs -rm hdfs://172.20.9.30:9000/history/app-20241023162112-0005
+hadoop fs -rm hdfs://172.20.9.30:9000/history/spark-7f13c56cba9943629d4fd8ce0155aac7
+
+
+
+hadoop fs -put -f /home/ubuntu/Downloads/01GB-20241029T085136Z-001/01GB hdfs://172.20.9.30:9000/tcang
 
 ---
 
